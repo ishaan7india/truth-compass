@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
-import { Shield, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useState } from "react";
+import logoImage from "@/assets/truth-compass-logo.png";
 
 export const Navbar = () => {
   const location = useLocation();
@@ -22,11 +23,13 @@ export const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="rounded-lg bg-gradient-primary p-2 group-hover:shadow-glow transition-shadow">
-              <Shield className="h-5 w-5 text-primary-foreground" />
-            </div>
+            <img 
+              src={logoImage} 
+              alt="Truth Compass Logo" 
+              className="h-10 w-10 group-hover:drop-shadow-glow transition-all"
+            />
             <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              TruthGuard
+              Truth Compass
             </span>
           </Link>
 

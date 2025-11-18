@@ -1,5 +1,5 @@
-import { Shield } from "lucide-react";
 import { Link } from "react-router-dom";
+import logoImage from "@/assets/truth-compass-logo.png";
 
 export const Footer = () => {
   return (
@@ -9,11 +9,13 @@ export const Footer = () => {
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-gradient-primary p-2">
-                <Shield className="h-5 w-5 text-primary-foreground" />
-              </div>
+              <img 
+                src={logoImage} 
+                alt="Truth Compass Logo" 
+                className="h-10 w-10"
+              />
               <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                TruthGuard
+                Truth Compass
               </span>
             </div>
             <p className="text-sm text-muted-foreground">
