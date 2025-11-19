@@ -162,11 +162,11 @@ const Index = () => {
                   Try AI Detection
                 </Button>
               </Link>
-              <Link to="/education">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10">
-                  Learn More
-                </Button>
-              </Link>
+            <Link to="/education">
+              <Button size="lg" variant="secondary" className="w-full sm:w-auto">
+                Learn More
+              </Button>
+            </Link>
             </div>
           </CardContent>
         </Card>
