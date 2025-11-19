@@ -26,55 +26,105 @@ export const TextAnalyzer = () => {
     setAnalysisResult(null);
 
     try {
-      // Simulated analysis
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Enhanced analysis simulation
+      await new Promise(resolve => setTimeout(resolve, 2500));
 
-      // Simple rule-based analysis
+      // Advanced linguistic analysis
       const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
-      const words = text.split(/\s+/);
+      const words = text.split(/\s+/).filter(w => w.length > 0);
       const avgSentenceLength = words.length / sentences.length;
 
-      // Check for repetitive patterns
+      // Expanded AI phrase detection (25+ phrases)
+      const aiPhrases = [
+        "it's worth noting", "it's important to", "in conclusion", "to summarize",
+        "essentially", "fundamentally", "paradigm", "leverage", "synergy",
+        "delve into", "tapestry", "realm", "multifaceted", "comprehensive",
+        "holistic", "robust", "cutting-edge", "state-of-the-art", "innovative",
+        "revolutionize", "transformative", "game-changing", "pivotal", "crucial",
+        "furthermore", "moreover", "additionally", "consequently"
+      ];
+      
+      const aiPhraseMatches = aiPhrases.filter(phrase => 
+        text.toLowerCase().includes(phrase)
+      );
+      const aiPhraseCount = aiPhraseMatches.length;
+
+      // Sentence length variance (burstiness)
       const sentenceLengths = sentences.map(s => s.split(/\s+/).length);
       const lengthVariance = calculateVariance(sentenceLengths);
       
-      // Check for burstiness (variation in sentence length)
-      const burstiness = lengthVariance > 20 ? "High" : lengthVariance > 10 ? "Medium" : "Low";
-      
-      // Check for common AI phrases
-      const aiPhrases = ["it's important to note", "in conclusion", "furthermore", "moreover", "it is worth noting"];
-      const hasAiPhrases = aiPhrases.some(phrase => text.toLowerCase().includes(phrase));
+      // Lexical diversity (unique words / total words)
+      const uniqueWords = new Set(words.map(w => w.toLowerCase()));
+      const lexicalDiversity = uniqueWords.size / words.length;
 
+      // Transition word analysis
+      const transitionWords = ["however", "moreover", "furthermore", "additionally", "consequently", "therefore"];
+      const transitionCount = transitionWords.filter(word => 
+        text.toLowerCase().includes(word)
+      ).length;
+      
+      // Scoring factors
       let score = 30;
       const factors = [];
 
-      if (burstiness === "Low") {
+      // Burstiness check (25 points)
+      if (lengthVariance < 15) {
         score += 25;
-        factors.push({ label: "Low sentence variation", impact: "High suspicion", negative: true });
+        factors.push({ label: "Low burstiness - repetitive patterns", impact: "High suspicion", negative: true });
+      } else if (lengthVariance < 25) {
+        score += 12;
+        factors.push({ label: "Medium burstiness", impact: "Medium suspicion", negative: true });
       } else {
-        factors.push({ label: "Natural sentence variation", impact: "Low suspicion", negative: false });
+        factors.push({ label: "High burstiness - human-like variation", impact: "Low suspicion", negative: false });
       }
 
-      if (hasAiPhrases) {
+      // AI Phrase Detection (20 points)
+      if (aiPhraseCount >= 3) {
         score += 20;
-        factors.push({ label: "Generic AI phrasing detected", impact: "Medium suspicion", negative: true });
-      }
-
-      if (avgSentenceLength > 20) {
-        score += 15;
-        factors.push({ label: "Consistently long sentences", impact: "Medium suspicion", negative: true });
-      }
-
-      // Check grammar perfection (in real implementation)
-      if (Math.random() > 0.6) {
+        factors.push({ label: `Multiple AI phrases detected (${aiPhraseCount} found)`, impact: "High suspicion", negative: true });
+      } else if (aiPhraseCount >= 1) {
         score += 10;
-        factors.push({ label: "Unnaturally perfect grammar", impact: "Low suspicion", negative: true });
+        factors.push({ label: `Some AI phrasing detected (${aiPhraseCount} found)`, impact: "Medium suspicion", negative: true });
+      } else {
+        factors.push({ label: "Natural vocabulary and expressions", impact: "Low suspicion", negative: false });
       }
 
-      const verdict = score < 40 ? "Likely Human" : score < 70 ? "Possibly AI-Generated" : "AI-Like";
+      // Tone Consistency (15 points)
+      if (avgSentenceLength > 18 && avgSentenceLength < 24 && lengthVariance < 20) {
+        score += 15;
+        factors.push({ label: "Overly consistent, formal tone", impact: "Medium-High suspicion", negative: true });
+      }
+
+      // Lexical Diversity (15 points)
+      if (lexicalDiversity < 0.35) {
+        score += 15;
+        factors.push({ label: `Limited word variety (${Math.round(lexicalDiversity * 100)}%)`, impact: "Medium-High suspicion", negative: true });
+      } else if (lexicalDiversity < 0.5) {
+        score += 7;
+        factors.push({ label: `Moderate lexical diversity (${Math.round(lexicalDiversity * 100)}%)`, impact: "Low-Medium suspicion", negative: true });
+      } else {
+        factors.push({ label: `Good lexical diversity (${Math.round(lexicalDiversity * 100)}%)`, impact: "Low suspicion", negative: false });
+      }
+
+      // Transition Word Usage (10 points)
+      if (transitionCount > sentences.length * 0.3) {
+        score += 10;
+        factors.push({ label: "Excessive formal transition words", impact: "Medium suspicion", negative: true });
+      }
+
+      // Perplexity simulation (5 points)
+      if (lexicalDiversity < 0.4 || lengthVariance < 15) {
+        score += 5;
+        factors.push({ label: "Low perplexity - predictable patterns", impact: "Low suspicion", negative: true });
+      } else {
+        factors.push({ label: "High perplexity - creative, unpredictable", impact: "Low suspicion", negative: false });
+      }
+
+      const finalScore = Math.min(score, 100);
+      const verdict = finalScore < 40 ? "Likely Human" : finalScore < 70 ? "Possibly AI-Generated" : "AI-Like";
 
       setAnalysisResult({
-        score: Math.min(score, 100),
+        score: finalScore,
         verdict,
         factors,
         type: "text",

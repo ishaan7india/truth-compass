@@ -3,7 +3,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ImageAnalyzer } from "@/components/detection/ImageAnalyzer";
 import { TextAnalyzer } from "@/components/detection/TextAnalyzer";
-import { Shield, Image, FileText } from "lucide-react";
+import { BatchAnalyzer } from "@/components/detection/BatchAnalyzer";
+import { ComparisonTool } from "@/components/detection/ComparisonTool";
+import { Shield, Image, FileText, Layers, ArrowLeftRight } from "lucide-react";
 
 const AIDetection = () => {
   return (
@@ -23,7 +25,7 @@ const AIDetection = () => {
         </div>
 
         <Tabs defaultValue="image" className="max-w-4xl mx-auto">
-          <TabsList className="grid w-full grid-cols-2 mb-8">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-8">
             <TabsTrigger value="image" className="flex items-center gap-2">
               <Image className="h-4 w-4" />
               Image Analysis
@@ -31,6 +33,14 @@ const AIDetection = () => {
             <TabsTrigger value="text" className="flex items-center gap-2">
               <FileText className="h-4 w-4" />
               Text Analysis
+            </TabsTrigger>
+            <TabsTrigger value="batch" className="flex items-center gap-2">
+              <Layers className="h-4 w-4" />
+              Batch Analysis
+            </TabsTrigger>
+            <TabsTrigger value="compare" className="flex items-center gap-2">
+              <ArrowLeftRight className="h-4 w-4" />
+              Compare
             </TabsTrigger>
           </TabsList>
 
@@ -40,6 +50,14 @@ const AIDetection = () => {
 
           <TabsContent value="text" className="animate-fade-in">
             <TextAnalyzer />
+          </TabsContent>
+
+          <TabsContent value="batch" className="animate-fade-in">
+            <BatchAnalyzer />
+          </TabsContent>
+
+          <TabsContent value="compare" className="animate-fade-in">
+            <ComparisonTool />
           </TabsContent>
         </Tabs>
 
@@ -54,11 +72,14 @@ const AIDetection = () => {
             </CardHeader>
             <CardContent className="space-y-2 text-sm text-muted-foreground">
               <p>• EXIF metadata analysis</p>
-              <p>• Visual artifact detection</p>
+              <p>• Visual artifact detection (blur, sharpening)</p>
               <p>• Edge consistency checking</p>
-              <p>• Pattern repetition analysis</p>
+              <p>• Texture pattern repetition analysis</p>
               <p>• AI watermark detection</p>
               <p>• Anatomical error detection</p>
+              <p>• Lighting and shadow consistency</p>
+              <p>• Color gradient analysis</p>
+              <p>• Noise pattern evaluation</p>
             </CardContent>
           </Card>
 
@@ -70,12 +91,13 @@ const AIDetection = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 text-sm text-muted-foreground">
-              <p>• Sentence structure patterns</p>
-              <p>• Vocabulary consistency</p>
+              <p>• Sentence structure pattern analysis</p>
+              <p>• Lexical diversity measurement</p>
               <p>• Tone uniformity analysis</p>
-              <p>• Burstiness measurement</p>
-              <p>• Generic phrasing detection</p>
-              <p>• Writing style markers</p>
+              <p>• Burstiness and perplexity scoring</p>
+              <p>• Generic AI phrasing detection (25+ phrases)</p>
+              <p>• Transition word frequency analysis</p>
+              <p>• Writing style and complexity markers</p>
             </CardContent>
           </Card>
         </div>

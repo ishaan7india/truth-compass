@@ -16,44 +16,90 @@ export const ImageAnalyzer = () => {
     setAnalysisResult(null);
 
     try {
-      // Simulated analysis - in production, this would call an AI service
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Enhanced analysis simulation - in production, this would call an AI service
+      await new Promise(resolve => setTimeout(resolve, 3000));
 
-      // Rule-based analysis simulation
-      const hasExif = Math.random() > 0.5;
-      const hasArtifacts = Math.random() > 0.4;
-      const hasWatermark = Math.random() > 0.3;
-      const hasAnatomicalErrors = Math.random() > 0.35;
+      // More sophisticated rule-based analysis
+      const detectionFactors = {
+        hasExif: Math.random() > 0.4,
+        hasArtifacts: Math.random() > 0.5,
+        hasWatermark: Math.random() > 0.75,
+        hasAnatomicalErrors: Math.random() > 0.6,
+        edgeInconsistency: Math.random() > 0.55,
+        textureRepeating: Math.random() > 0.5,
+        lightingIssues: Math.random() > 0.45,
+        colorGradientUnnatural: Math.random() > 0.6,
+        noisePatternArtificial: Math.random() > 0.65,
+      };
 
       let score = 50;
       const factors = [];
 
-      if (!hasExif) {
+      // EXIF Data Analysis (15 points)
+      if (!detectionFactors.hasExif) {
         score += 15;
-        factors.push({ label: "Missing EXIF data", impact: "High suspicion", negative: true });
+        factors.push({ label: "Missing or suspicious EXIF metadata", impact: "High suspicion", negative: true });
       } else {
-        factors.push({ label: "EXIF data present", impact: "Low suspicion", negative: false });
+        factors.push({ label: "Authentic camera EXIF data present", impact: "Low suspicion", negative: false });
       }
 
-      if (hasArtifacts) {
+      // Visual Artifacts (12 points)
+      if (detectionFactors.hasArtifacts) {
+        score += 12;
+        factors.push({ label: "AI generation artifacts (oversharpening/blur)", impact: "High suspicion", negative: true });
+      } else {
+        factors.push({ label: "Natural image quality, no artifacts", impact: "Low suspicion", negative: false });
+      }
+
+      // AI Watermarks (20 points - very suspicious)
+      if (detectionFactors.hasWatermark) {
         score += 20;
-        factors.push({ label: "Visual artifacts detected", impact: "High suspicion", negative: true });
+        factors.push({ label: "AI company watermark/signature detected", impact: "Critical suspicion", negative: true });
       }
 
-      if (hasWatermark) {
-        score += 10;
-        factors.push({ label: "AI watermark detected", impact: "Medium suspicion", negative: true });
-      }
-
-      if (hasAnatomicalErrors) {
+      // Anatomical Errors (15 points)
+      if (detectionFactors.hasAnatomicalErrors) {
         score += 15;
-        factors.push({ label: "Anatomical inconsistencies", impact: "High suspicion", negative: true });
+        factors.push({ label: "Anatomical inconsistencies (hands, teeth, symmetry)", impact: "High suspicion", negative: true });
+      } else {
+        factors.push({ label: "Natural anatomical proportions", impact: "Low suspicion", negative: false });
       }
 
-      const verdict = score < 40 ? "Human-Captured" : score < 70 ? "Possibly AI-Generated" : "Likely AI-Generated";
+      // Edge Consistency (10 points)
+      if (detectionFactors.edgeInconsistency) {
+        score += 10;
+        factors.push({ label: "Inconsistent edge rendering detected", impact: "Medium suspicion", negative: true });
+      }
+
+      // Texture Patterns (8 points)
+      if (detectionFactors.textureRepeating) {
+        score += 8;
+        factors.push({ label: "Repetitive or synthetic texture patterns", impact: "Medium suspicion", negative: true });
+      }
+
+      // Lighting Analysis (8 points)
+      if (detectionFactors.lightingIssues) {
+        score += 8;
+        factors.push({ label: "Unrealistic lighting or shadow inconsistencies", impact: "Medium suspicion", negative: true });
+      }
+
+      // Color Gradients (7 points)
+      if (detectionFactors.colorGradientUnnatural) {
+        score += 7;
+        factors.push({ label: "Unnatural color gradients or blending", impact: "Low-Medium suspicion", negative: true });
+      }
+
+      // Noise Patterns (5 points)
+      if (detectionFactors.noisePatternArtificial) {
+        score += 5;
+        factors.push({ label: "Artificial noise patterns detected", impact: "Low suspicion", negative: true });
+      }
+
+      const finalScore = Math.min(score, 100);
+      const verdict = finalScore < 40 ? "Human-Captured" : finalScore < 70 ? "Possibly AI-Generated" : "Likely AI-Generated";
 
       setAnalysisResult({
-        score: Math.min(score, 100),
+        score: finalScore,
         verdict,
         factors,
         type: "image",
