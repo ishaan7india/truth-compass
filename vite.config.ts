@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-    base: "//truth-compass//",
+  base: "/truth-compass/",
   server: {
     host: "::",
     port: 8080,
